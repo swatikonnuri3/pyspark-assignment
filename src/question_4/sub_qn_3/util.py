@@ -1,20 +1,21 @@
-from pyspark.sql.functions import col, explode, explode_outer
+import sys
+import os
+sys.path.insert(0, r"C:\Users\Swati\PycharmProjects\pyspark-assignment\src")
+import config
 
+from pyspark.sql.functions import col, explode, explode_outer
 
 def count_comparison(spark, df):
     """
     Compare record count before and after flattening.
-    Explains why flattened count is higher.
     """
     original_count = df.count()
     print(f"Original (not flattened) count : {original_count}")
-
     from pyspark.sql.types import ArrayType
     array_cols = [
         f.name for f in df.schema.fields
         if isinstance(f.dataType, ArrayType)
     ]
-
     if array_cols:
         exploded_df = df.withColumn(array_cols[0], explode(col(array_cols[0])))
         exploded_count = exploded_df.count()

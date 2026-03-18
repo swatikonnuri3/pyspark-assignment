@@ -1,3 +1,8 @@
+import sys
+import os
+sys.path.insert(0, r"C:\Users\Swati\PycharmProjects\pyspark-assignment\src")
+import config
+
 from pyspark.sql.functions import col, explode
 
 
@@ -8,7 +13,6 @@ def flatten_df(df):
     """
     from pyspark.sql.types import ArrayType, StructType
 
-    # Explode all array columns
     array_cols = [
         field.name for field in df.schema.fields
         if isinstance(field.dataType, ArrayType)
@@ -17,7 +21,6 @@ def flatten_df(df):
     for array_col in array_cols:
         df = df.withColumn(array_col, explode(col(array_col)))
 
-    # Flatten all struct columns
     struct_cols = [
         field.name for field in df.schema.fields
         if isinstance(field.dataType, StructType)

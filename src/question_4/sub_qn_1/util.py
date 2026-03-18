@@ -1,9 +1,12 @@
-from pyspark.sql import SparkSession
+import sys
+import os
+sys.path.insert(0, r"C:\Users\Swati\PycharmProjects\pyspark-assignment\src")
+import config
 
+from pyspark.sql import SparkSession
 
 def get_spark():
     return SparkSession.builder.appName("Q4").master("local").getOrCreate()
-
 
 def read_json_dynamic(spark, path):
     """
