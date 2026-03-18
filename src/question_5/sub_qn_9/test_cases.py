@@ -1,21 +1,30 @@
 import pytest
 import sys
 import os
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', 'sub_qn_1'))
-sys.path.insert(0, os.path.dirname(__file__))
+sys.path.insert(0, r"C:\Users\Swati\PycharmProjects\pyspark-assignment\src")
+import config
 
-
+import importlib.util as ilu
 def load(path, name):
-    import importlib.util as ilu
     spec = ilu.spec_from_file_location(name, path)
     mod  = ilu.module_from_spec(spec)
     spec.loader.exec_module(mod)
     return mod
 
+base = os.path.join(os.path.dirname(__file__), '..')
+sub1 = load(os.path.join(base, 'sub_qn_1', 'util.py'), 'sub1')
+s7   = load(os.path.join(base, 'sub_qn_7', 'util.py'), 's7')
+s8   = load(os.path.join(base, 'sub_qn_8', 'util.py'), 's8')
+
+sys.modules.pop('util', None)
+sys.path.insert(0, os.path.dirname(__file__))
+from util import write_external_tables
+
+from pyspark.sql import SparkSession
+
 
 @pytest.fixture(scope="session")
 def spark():
-    from pyspark.sql import SparkSession
     return SparkSession.builder \
         .appName("Test_Q5_9") \
         .master("local") \
@@ -24,10 +33,6 @@ def spark():
 
 @pytest.fixture(scope="session")
 def final_df(spark):
-    base = os.path.join(os.path.dirname(__file__), '..')
-    s7   = load(os.path.join(base, 'sub_qn_7', 'util.py'), 's7')
-    s8   = load(os.path.join(base, 'sub_qn_8', 'util.py'), 's8')
-    import util as sub1
     employee_df = sub1.create_employee_df(spark)
     country_df  = sub1.create_country_df(spark)
     return s8.lowercase_columns_and_load_date(

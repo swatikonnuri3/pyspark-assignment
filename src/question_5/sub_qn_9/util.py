@@ -1,12 +1,17 @@
+import sys
+import os
+sys.path.insert(0, r"C:\Users\Swati\PycharmProjects\pyspark-assignment\src")
+import config
+
+
 def write_external_tables(df, spark,
                           database="employee_ext",
                           base_path="spark-warehouse/employee_ext"):
     """
-    Create 2 external tables with same database name:
-    - Table 1: CSV format   → table name: employee_csv
-    - Table 2: Parquet format → table name: employee_parquet
+    Create 2 external tables:
+    - Table 1: CSV format    → employee_csv
+    - Table 2: Parquet format → employee_parquet
     """
-    import os
     spark.sql(f"CREATE DATABASE IF NOT EXISTS {database}")
 
     csv_path     = f"{base_path}/employee_csv"
@@ -36,6 +41,7 @@ def write_external_tables(df, spark,
 
     print(f"External CSV table {database}.employee_csv created.")
 
+    # External table 2 - Parquet
     df.write \
       .mode("overwrite") \
       .parquet(parquet_path)

@@ -1,6 +1,10 @@
+import sys
+import os
+sys.path.insert(0, r"C:\Users\Swati\PycharmProjects\pyspark-assignment\src")
+import config
+
 from pyspark.sql import SparkSession
-from pyspark.sql.types import (StructType, StructField,
-                                IntegerType, StringType)
+from pyspark.sql.types import StructType, StructField, IntegerType, StringType
 
 
 def get_spark():

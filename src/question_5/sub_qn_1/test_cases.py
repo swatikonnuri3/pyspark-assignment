@@ -1,10 +1,15 @@
 import pytest
 import sys
 import os
+sys.path.insert(0, r"C:\Users\Swati\PycharmProjects\pyspark-assignment\src")
+import config
+
+sys.modules.pop('util', None)
+sys.path = [p for p in sys.path if 'question_' not in p and 'sub_qn_' not in p]
 sys.path.insert(0, os.path.dirname(__file__))
+from util import create_employee_df, create_department_df, create_country_df
 
 from pyspark.sql import SparkSession
-from util import create_employee_df, create_department_df, create_country_df
 
 
 @pytest.fixture(scope="session")

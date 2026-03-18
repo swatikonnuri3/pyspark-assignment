@@ -1,11 +1,12 @@
+import sys
+import os
+sys.path.insert(0, r"C:\Users\Swati\PycharmProjects\pyspark-assignment\src")
+import config
+
 from pyspark.sql.functions import col
 
 
 def emp_dept_name_starts_with_m(employee_df, department_df):
-    """
-    Find employee name and department name
-    where employee name starts with 'm'.
-    """
     return (
         employee_df
         .join(department_df,
