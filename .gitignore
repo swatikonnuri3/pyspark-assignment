@@ -64,3 +64,13 @@ coverage.xml
 # Logs
 *.log
 logs/
+.venv/
+.venv_new/
+.venv_pyspark/
+venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+spark-warehouse/
+derby.log
+metastore_db/
