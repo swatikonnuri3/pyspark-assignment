@@ -1,0 +1,19 @@
+[
+  {
+    "id": "0001",
+    "name": "James",
+    "department": "Engineering",
+    "projects": [
+      {"project_id": "P1", "project_name": "Alpha"},
+      {"project_id": "P2", "project_name": "Beta"}
+    ]
+  },
+  {
+    "id": "0002",
+    "name": "Maria",
+    "department": "Finance",
+    "projects": [
+      {"project_id": "P3", "project_name": "Gamma"}
+    ]
+  }
+]
