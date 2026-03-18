@@ -1,28 +1,35 @@
 import pytest
 import sys
 import os
+sys.path.insert(0, r"C:\Users\Swati\PycharmProjects\pyspark-assignment\src")
+import config
 
-
+import importlib.util as ilu
 def load(path, name):
-    import importlib.util as ilu
     spec = ilu.spec_from_file_location(name, path)
     mod  = ilu.module_from_spec(spec)
     spec.loader.exec_module(mod)
     return mod
 
+base = os.path.join(os.path.dirname(__file__), '..')
+s1 = load(os.path.join(base, 'sub_qn_1', 'util.py'), 's1')
+s2 = load(os.path.join(base, 'sub_qn_2', 'util.py'), 's2')
+
+sys.modules.pop('util', None)
+sys.path = [p for p in sys.path if 'question_' not in p and 'sub_qn_' not in p]
+sys.path.insert(0, os.path.dirname(__file__))
+from util import convert_timestamp_to_date
+
+from pyspark.sql import SparkSession
+from pyspark.sql.types import DateType
+
 
 @pytest.fixture(scope="session")
 def spark():
-    from pyspark.sql import SparkSession
     return SparkSession.builder.appName("Test_Q3_4").master("local").getOrCreate()
 
 @pytest.fixture(scope="session")
 def result_df(spark):
-    base = os.path.join(os.path.dirname(__file__), '..')
-    s1   = load(os.path.join(base, 'sub_qn_1', 'util.py'), 's1')
-    s2   = load(os.path.join(base, 'sub_qn_2', 'util.py'), 's2')
-    sys.path.insert(0, os.path.dirname(__file__))
-    from util import convert_timestamp_to_date
     df = s2.rename_columns(s1.create_log_df(spark))
     return convert_timestamp_to_date(df)
 

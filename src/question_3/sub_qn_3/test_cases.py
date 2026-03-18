@@ -1,27 +1,34 @@
 import pytest
 import sys
 import os
+import importlib.util as importlib_util
 
+sys.path.insert(0, r"C:\Users\Swati\PycharmProjects\pyspark-assignment\src")
+import config
+
+# Load sub_qn_3's util explicitly
+_sub3_path = os.path.join(os.path.dirname(__file__), 'util.py')
+_spec3 = importlib_util.spec_from_file_location("sub_qn_3_util", _sub3_path)
+_sub_qn_3_util = importlib_util.module_from_spec(_spec3)
+_spec3.loader.exec_module(_sub_qn_3_util)
+
+create_log_df = _sub_qn_3_util.create_log_df
+rename_columns = _sub_qn_3_util.rename_columns
+actions_last_7_days = _sub_qn_3_util.actions_last_7_days
+
+from pyspark.sql import SparkSession
 
 @pytest.fixture(scope="session")
 def spark():
-    from pyspark.sql import SparkSession
     return SparkSession.builder.appName("Test_Q3_3").master("local").getOrCreate()
 
 @pytest.fixture(scope="session")
 def renamed_df(spark):
-    sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', 'sub_qn_1'))
-    sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', 'sub_qn_2'))
-    import util as s1
-    import util as s2
-    return s2.rename_columns(s1.create_log_df(spark))
+    return rename_columns(create_log_df(spark))
 
 @pytest.fixture(scope="session")
 def result_df(spark, renamed_df):
-    sys.path.insert(0, os.path.dirname(__file__))
-    from util import actions_last_7_days
     return actions_last_7_days(renamed_df)
-
 
 def test_result_has_columns(spark, result_df):
     assert "user_id"      in result_df.columns

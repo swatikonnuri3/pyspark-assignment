@@ -1,6 +1,10 @@
+import sys
+import os
+sys.path.insert(0, r"C:\Users\Swati\PycharmProjects\pyspark-assignment\src")
+import config
+
 from pyspark.sql import SparkSession
 from pyspark.sql.types import StructType, StructField, IntegerType, StringType
-
 
 DATA = [
     (1, 101, 'login',  '2023-09-05 08:30:00'),
@@ -13,10 +17,8 @@ DATA = [
     (8, 102, 'click',  '2023-09-12 13:10:00'),
 ]
 
-
 def get_spark():
     return SparkSession.builder.appName("Q3").master("local").getOrCreate()
-
 
 def create_log_df(spark):
     schema = StructType([

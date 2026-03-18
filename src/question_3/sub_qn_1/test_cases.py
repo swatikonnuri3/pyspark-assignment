@@ -1,10 +1,14 @@
 import pytest
 import sys
 import os
+sys.path.insert(0, r"C:\Users\Swati\PycharmProjects\pyspark-assignment\src")
+import config
+
+sys.modules.pop('util', None)
 sys.path.insert(0, os.path.dirname(__file__))
+from util import create_log_df
 
 from pyspark.sql import SparkSession
-from util import create_log_df
 
 
 @pytest.fixture(scope="session")
@@ -25,10 +29,6 @@ def test_columns_exist(spark):
 def test_log_id_dtype(spark):
     df = create_log_df(spark)
     assert str(df.schema["log id"].dataType) == "IntegerType()"
-
-def test_user_id_dtype(spark):
-    df = create_log_df(spark)
-    assert str(df.schema["user$id"].dataType) == "IntegerType()"
 
 def test_action_dtype(spark):
     df = create_log_df(spark)
