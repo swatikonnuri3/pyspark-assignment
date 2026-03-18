@@ -1,6 +1,10 @@
+import sys
+import os
+sys.path.insert(0, r"C:\Users\Swati\PycharmProjects\pyspark-assignment\src")
+import config
+
 from pyspark.sql import SparkSession
 from pyspark.sql.types import StructType, StructField, StringType
-
 
 SCHEMA = StructType([
     StructField("card_number", StringType(), True)
@@ -13,7 +17,6 @@ DATA = [
     ("1234567812341122",),
     ("1234567812341342",)
 ]
-
 
 def get_spark():
     return SparkSession.builder.appName("Q2").master("local").getOrCreate()

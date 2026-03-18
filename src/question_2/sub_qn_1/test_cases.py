@@ -1,11 +1,16 @@
 import pytest
 import sys
 import os
-sys.path.insert(0, os.path.dirname(__file__))
+sys.path.insert(0, r"C:\Users\Swati\PycharmProjects\pyspark-assignment\src")
+import config
 
-from pyspark.sql import SparkSession
+sys.modules.pop('util', None)
+sys.path = [p for p in sys.path if 'question_' not in p and 'sub_qn_' not in p]
+sys.path.insert(0, os.path.dirname(__file__))
 from util import (create_credit_card_df_inline, create_credit_card_df_csv,
                   create_credit_card_df_json, create_credit_card_df_parquet)
+
+from pyspark.sql import SparkSession
 
 
 @pytest.fixture(scope="session")

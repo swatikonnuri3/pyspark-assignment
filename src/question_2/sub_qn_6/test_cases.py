@@ -1,10 +1,14 @@
 import pytest
 import sys
 import os
+sys.path.insert(0, r"C:\Users\Swati\PycharmProjects\pyspark-assignment\src")
+import config
+
+sys.modules.pop('util', None)
 sys.path.insert(0, os.path.dirname(__file__))
+from util import get_final_output
 
 from pyspark.sql import SparkSession
-from util import get_final_output
 
 
 @pytest.fixture(scope="session")
